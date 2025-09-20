@@ -1,0 +1,17 @@
+Konsep Utama dan Blok Bangunan
+1. Cara Kerja TensorFlow 2
+Berbeda dengan versi sebelumnya (TensorFlow 1) yang menggunakan eksekusi deklaratif, TensorFlow 2 mengadopsi gaya eksekusi imperatif atau yang dikenal sebagai Eager Execution.
+Eksekusi Imperatif: Dalam mode ini, operasi dijalankan segera setelah didefinisikan, seperti halnya kode Python biasa. Hal ini membuat proses debugging menjadi lebih mudah karena Anda bisa melihat hasil setiap operasi secara instan.
+Grafik Komputasi: Meskipun beroperasi secara imperatif, TensorFlow 2 masih membangun grafik komputasi di balik layar. Ini dilakukan secara otomatis oleh fitur bernama AutoGraph melalui dekorator @tf.function. Ketika sebuah fungsi dihiasi dengan @tf.function, TensorFlow akan melacak semua operasi yang ada di dalamnya dan mengompilasinya menjadi grafik komputasi yang efisien. Ini memungkinkan kode yang fleksibel sekaligus mendapatkan manfaat kinerja dari grafik yang dioptimalkan, terutama saat menjalankan banyak operasi berulang seperti dalam pelatihan jaringan saraf.
+
+2. Blok Bangunan Dasar TensorFlow
+Ada tiga komponen utama yang menjadi fondasi setiap program TensorFlow:
+1. tf.Variable: Ini adalah struktur data yang dapat diubah (mutable). Ia menyimpan parameter model seperti bobot dan bias yang nilainya akan terus berubah selama proses pelatihan melalui penurunan gradien. Sebuah tf.Variable harus memiliki bentuk (shape), nilai awal, dan tipe data.
+2. tf.Tensor: Ini adalah struktur data utama yang tidak dapat diubah (immutable). tf.Tensor mewakili data yang mengalir melalui grafik komputasi, seperti input, output, dan hasil perantara dari operasi. Setelah sebuah tf.Tensor dibuat, nilainya tidak dapat diubah. Tipe khusus dari tf.Tensor adalah EagerTensor yang nilainya dievaluasi secara langsung dalam mode eksekusi imperatif.
+3. tf.Operation: Ini adalah semua operasi komputasi yang dapat dijalankan pada tf.Tensor atau tf.Variable, seperti perkalian matriks (tf.matmul), konvolusi (tf.nn.convolution), dan operasi matematika lainnya.
+
+3. Operasi-operasi Jaringan Saraf
+membahas operasi-operasi matematika yang menjadi dasar dari sebagian besar jaringan saraf:
+- Perkalian Matriks: Digunakan dalam lapisan terhubung sepenuhnya (fully connected layers). Operasi tf.matmul melakukan perkalian matriks yang efisien pada tensor, bahkan untuk dimensi yang lebih tinggi.
+- Operasi Konvolusi: Inti dari Jaringan Saraf Konvolusional (CNN). Operasi konvolusi, seperti yang dilakukan oleh tf.nn.convolution, menerapkan sebuah jendela atau kernel untuk mengekstrak fitur dari data input, seperti mendeteksi tepi dalam gambar.
+- Operasi Pooling: Digunakan untuk mereduksi dimensi spasial dari data input. Operasi ini membantu membuat model lebih tahan terhadap variasi posisi objek dalam gambar. Contohnya adalah tf.nn.max_pool yang mengambil nilai maksimum dalam sebuah jendela.
