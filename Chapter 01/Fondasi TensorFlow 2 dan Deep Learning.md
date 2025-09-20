@@ -1,4 +1,3 @@
-Fondasi TensorFlow 2 dan Deep Learning
 Bagian 1 buku ini Merupakan fondasi penting yang berfokus pada pengenalan dasar-dasar TensorFlow sebagai kerangka kerja dan konsep-konsep inti dari deep learning. 
 Tujuannya adalah untuk membekali pembaca dengan pemahaman teoretis dan praktis yang diperlukan sebelum melangkah ke aplikasi yang lebih kompleks di bagian-bagian selanjutnya.
 
