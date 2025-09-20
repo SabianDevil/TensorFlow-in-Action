@@ -1,0 +1,13 @@
+Bab ini berfungsi sebagai jembatan penting, menghubungkan konsep dasar TensorFlow dengan praktik membangun model yang nyata. Ini berfokus pada dua aspek krusial: penggunaan pustaka Keras untuk menyederhanakan pengembangan model dan berbagai cara untuk menciptakan pipeline data yang efisien.
+
+API Pembangunan Model Keras
+Keras adalah API tingkat tinggi yang terintegrasi penuh dalam TensorFlow, memungkinkan Anda membuat model deep learning dengan cara yang lebih intuitif. Buku ini memperkenalkan tiga metode utama untuk membangun model, masing-masing dengan tingkat fleksibilitas yang berbeda:
+1. API Sequential: Metode ini adalah yang paling sederhana, ideal untuk model dengan arsitektur linear, di mana lapisan-lapisan ditumpuk secara berurutan. Ini adalah pilihan terbaik untuk pemula dan model yang tidak memiliki cabang kompleks.
+2. API Functional: Jika Anda membutuhkan fleksibilitas lebih, API ini adalah jawabannya. Ia memungkinkan Anda membangun model dengan topologi yang lebih rumit, seperti model yang memiliki banyak input atau output, atau model yang memiliki alur data non-linear.
+3. API Sub-classing: Ini adalah metode yang paling canggih, memberikan kontrol penuh atas arsitektur model dan alur data. Dengan membuat kelas Python kustom, Anda dapat merancang lapisan atau model yang sangat spesifik dan tidak tersedia dalam API bawaan.
+
+Pengambilan Data yang Efisien
+Efisiensi dalam memuat dan memproses data sangat penting, terutama untuk model yang haus data. Buku ini menyajikan tiga cara utama untuk mengelola aliran data:
+- API tf.data: Ini adalah API yang sangat kuat dan fleksibel untuk membangun pipeline data yang dapat dioptimalkan. Dengan tf.data, Anda bisa membuat aliran data yang dapat diacak (shuffle), dibersihkan, diproses, dan di-batch secara otomatis sebelum data masuk ke dalam model.
+- Keras ImageDataGenerator: Pilihan yang lebih sederhana, khususnya untuk data gambar. Alat ini dapat memuat gambar dari direktori dan secara otomatis melakukan augmentasi data dasar seperti rotasi atau zoom untuk meningkatkan variasi data pelatihan.
+- Pustaka tensorflow-datasets: Pustaka ini menyediakan akses langsung ke banyak dataset publik yang populer dalam machine learning, memungkinkan Anda memuat data dengan cepat tanpa proses manual.
