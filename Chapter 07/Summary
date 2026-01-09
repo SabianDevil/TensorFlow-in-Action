@@ -1,0 +1,48 @@
+Ringkasan Bab 7: Kekuatan Kolektif (Ensemble Learning)
+Bab ini membahas filosofi bahwa "banyak kepala lebih baik daripada satu". Dalam Machine Learning, kita tidak harus bergantung pada satu model jenius; kita bisa menggabungkan ribuan model biasa-biasa saja untuk menciptakan satu "komite" keputusan yang sangat cerdas.
+________________________________________
+
+1. Demokrasi Algoritma (Voting Classifiers)
+Konsep dasarnya adalah Wisdom of the Crowd. Jika Anda menggabungkan ribuan weak learners (model yang hanya sedikit lebih baik dari tebakan acak), hasil gabungannya seringkali menjadi strong learner.
+
+Ada dua cara "komite" ini mengambil keputusan:
+•	Hard Voting (Demokrasi Murni): Setiap model memberikan satu suara untuk kelas tertentu. Kelas dengan suara terbanyak menang.
+•	Soft Voting (Meritokrasi): Lebih canggih. Jika model-model Anda mampu mengeluarkan probabilitas (tingkat keyakinan), kita merata-ratakan probabilitas tersebut. Model yang sangat yakin dengan jawabannya akan memiliki pengaruh lebih besar daripada model yang ragu-ragu. Cara ini biasanya memberikan akurasi lebih tinggi.
+________________________________________
+
+2. Bagging dan Pasting: Paralelisasi
+Bagaimana cara membuat model-model tersebut beragam jika algoritmanya sama? Caranya adalah dengan melatih mereka pada subset data yang berbeda secara acak.
+•	Bagging (Bootstrap Aggregating): Pengambilan sampel data dilakukan dengan pengembalian (replacement). Artinya, satu data bisa muncul berkali-kali dalam pelatihan satu model.
+•	Pasting: Pengambilan sampel dilakukan tanpa pengembalian.
+
+Keuntungan Unik Bagging:
+•	Evaluasi OOB (Out-of-Bag): Karena bagging hanya menggunakan sebagian data (sekitar 63%) untuk melatih tiap model, sisa data yang tidak terpakai (37%) bisa digunakan sebagai data validasi gratis. Anda bisa menguji akurasi model tanpa perlu memotong training set secara manual.
+________________________________________
+
+3. Random Forests: Hutan Keputusan
+Random Forest adalah raja dari metode Bagging. Ia adalah kumpulan dari banyak Decision Trees.
+ 
+Kehebatannya terletak pada Keacakan Ganda:
+1.	Sampel Acak: Seperti bagging biasa, setiap pohon dilatih pada subset data yang berbeda.
+2.	Fitur Acak: Saat pohon membelah diri (splitting), ia tidak mencari fitur terbaik dari seluruh fitur yang ada, melainkan hanya mencari dari subset fitur yang dipilih secara acak.
+
+Strategi ini membuat pohon-pohon di dalam hutan menjadi sangat beragam (variatif). Keberagaman ini menukar sedikit bias (kesalahan sistematis) dengan penurunan variance (sensitivitas terhadap data) yang drastis, menghasilkan model yang sangat stabil.
+•	Extra-Trees: Versi yang lebih ekstrem dan cepat, di mana ambang batas (threshold) pembagian fitur juga ditentukan secara acak, bukan dicari yang optimal.
+•	Feature Importance: Random Forest sangat berguna untuk melihat fitur mana yang paling berpengaruh (misalnya: apakah "luas rumah" lebih penting daripada "lokasi"?).
+________________________________________
+
+4. Boosting: Perbaikan Berantai
+Berbeda dengan Bagging yang paralel, Boosting bekerja secara sekuensial (berurutan). Tujuannya adalah mengubah model lemah menjadi kuat dengan cara fokus pada kesalahan pendahulunya.
+•	AdaBoost (Adaptive Boosting): Model baru memberi perhatian lebih pada data yang sulit.
+1.	Latih model pertama.
+2.	Identifikasi data yang salah diprediksi.
+3.	Tingkatkan bobot data tersebut (buat mereka jadi prioritas).
+4.	Latih model kedua pada data yang sudah dibobot ulang, dan ulangi terus.
+•	Gradient Boosting: Model baru mencoba memperbaiki sisa kesalahan (residual errors). Alih-alih mengutak-atik bobot data, model kedua dilatih untuk memprediksi selisih error yang dihasilkan model pertama. Model ketiga memprediksi error dari model kedua, dan seterusnya. Hasil akhirnya adalah penjumlahan dari semua prediksi model berantai tersebut.
+________________________________________
+
+5. Stacking: Manajer Model
+Jika voting menggunakan fungsi sederhana (seperti rata-rata) untuk menggabungkan prediksi, Stacking bertanya: "Kenapa tidak kita latih model lain saja untuk menggabungkannya?"
+1.	Layer Dasar: Beberapa model berbeda memprediksi data.
+2.	Layer Meta (Blender): Hasil prediksi dari model-model dasar tersebut dijadikan sebagai input (fitur) untuk melatih model baru (Blender).
+3.	Tujuan: Blender belajar cara terbaik untuk mencampuradukkan pendapat dari model-model di bawahnya untuk menghasilkan prediksi final yang akurat.
