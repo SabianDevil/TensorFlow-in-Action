@@ -1,1 +1,29 @@
+Ringkasan Bab 7: Mengasah Ketajaman Mata Mesin (CNN)
+Bab ini adalah level lanjutan dari Bab 6. Jika sebelumnya kita baru belajar membuat mesin "melihat", di sini kita fokus membuatnya melihat dengan lebih jeli (akurasi tinggi) dan lebih jujur (bisa menjelaskan alasannya).
 
+
+1. Perang Melawan Overfitting
+Musuh terbesar CNN adalah "menghafal" data alih-alih memahaminya. Bab ini memperkenalkan tiga senjata utama untuk memerangi hal tersebut:
+
+•	Augmentasi Data:
+o	Bayangkan jika Anda hanya punya satu foto kucing. Mesin mungkin berpikir semua kucing harus menghadap ke kanan.
+o	Augmentasi data "menggandakan" data Anda dengan cara memutar, membalik, atau men-zoom gambar secara acak. Ini memaksa model belajar fitur kucing yang sebenarnya, bukan posisi kucingnya.
+
+•	Dropout:
+o	Teknik ini sengaja "mematikan" sebagian neuron (misalnya 20-50%) secara acak selama latihan.
+o	Tujuannya? Agar neuron tidak manja. Mereka dipaksa bekerja mandiri dan tidak bergantung pada teman sebelahnya. Hasilnya adalah jaringan yang jauh lebih tangguh.
+
+•	Early Stopping :
+o	Ini adalah wasit yang mengawasi proses latihan. Jika performa model di data validasi (val_loss) tidak membaik setelah beberapa ronde (epoch), wasit akan meniup peluit dan menghentikan latihan. Ini mencegah model belajar terlalu jauh sampai menghafal noise.
+
+
+2. Transfer Learning
+Jangan mulai dari nol kalau tidak perlu.
+•	Konsep: Kita meminjam "otak" model raksasa (seperti VGG16 atau ResNet) yang sudah pintar karena dilatih melihat jutaan gambar (ImageNet).
+•	Cara Pakai: Kita ambil badan modelnya (yang jago mendeteksi bentuk dan tekstur), bekukan pengetahuannya agar tidak hilang, lalu kita ganti bagian kepalanya (klasifikator) sesuai dengan kebutuhan kita sendiri. Ini menghemat waktu dan data secara drastis.
+
+
+3. Explainable AI dengan Grad-CAM
+Bagian ini menjawab pertanyaan: "Kenapa mesin bilang ini gambar kucing?"
+•	Grad-CAM (Gradient-weighted Class Activation Mapping): Teknik visualisasi untuk "menginterogasi" CNN.
+•	Cara Kerja: Ia melacak aliran sinyal gradien dari output kembali ke layer konvolusi terakhir. Hasilnya adalah peta panas (heatmap) yang menyala di bagian gambar yang dianggap penting oleh mesin (misalnya, menyala di bagian telinga atau kumis kucing). Jadi kita tahu mesin tidak asal tebak.
