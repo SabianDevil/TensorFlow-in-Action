@@ -1,1 +1,25 @@
+Ringkasan Bab 5: Revolusi Deep Learning (Transformers)
+Bab ini meninggalkan arsitektur masa lalu dan beralih ke teknologi mutakhir yang merombak total dunia pemrosesan bahasa alami (NLP): Transformer. Kita akan membedah "mesin" di balik makalah legendaris Attention Is All You Need.
+
+
+1. Struktur Dasar: Si Pembaca dan Si Penulis
+Pada intinya, Transformer adalah model seq2seq (urutan-ke-urutan) yang dibangun di atas fondasi Encoder-Decoder:
+•	Encoder: Bagian yang bertugas "membaca" dan memahami konteks dari kalimat input.
+•	Decoder: Bagian yang bertugas "menulis" atau menghasilkan output baru berdasarkan pemahaman dari Encoder tadi.
+
+
+2. Inovasi Kunci: Self-Attention
+Inilah jantung dari Transformer. Jika model lama (RNN) membaca kata satu per satu secara berurutan (lambat dan mudah lupa), Self-Attention memungkinkan model melihat seluruh kata sekaligus dalam satu waktu.
+Mekanisme ini bekerja dengan memecah setiap kata menjadi tiga vektor peran (mirip konsep database):
+1.	Query (Q): Saat model memproses satu kata, Q bertindak sebagai "pencari" yang bertanya: "Hei, kata mana lagi yang berhubungan dengan saya?"
+2.	Key (K): Identitas atau label dari kata-kata lain.
+3.	Value (V): Informasi atau makna aktual dari kata tersebut.
+Cara Kerjanya: Model mencocokkan Query satu kata dengan Key kata lain (lewat perkalian dot product). Hasilnya adalah skor atensi—semakin tinggi skornya, semakin erat hubungan kedua kata tersebut, dan semakin banyak informasi (Value) yang akan diambil.
+
+
+3. Komponen Pendukung Vital
+Agar Transformer bekerja maksimal, ada beberapa komponen tambahan:
+•	Multi-Head Attention: Bayangkan punya 8 pasang mata, bukan satu. Ini memungkinkan model menjalankan beberapa proses self-attention secara paralel. Satu "kepala" mungkin fokus pada tata bahasa, "kepala" lain fokus pada hubungan semantik antar kata.
+•	Masked Self-Attention (Anti-Nyontek): Khusus dipakai di bagian Decoder. Karena Decoder harus memprediksi kata demi kata, kita harus menutup (masking) kata-kata masa depan agar Decoder tidak "mengintip" jawaban yang belum seharusnya ia lihat.
+•	Positional Encoding: Karena Transformer membaca semua kata sekaligus (bukan urut kiri-ke-kanan seperti RNN), dia tidak punya pemahaman bawaan tentang urutan kata. Solusinya, kita menyuntikkan informasi posisi ("nomor urut") secara manual ke dalam data agar model tahu mana kata pertama, kedua, dan seterusnya.
 
