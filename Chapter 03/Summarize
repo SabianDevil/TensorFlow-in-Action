@@ -1,1 +1,63 @@
+Ringkasan Bab 3: Seni Mengklasifikasikan Data
+Setelah mempelajari proses end-to-end di bab sebelumnya, bab ini menyelam lebih dalam ke salah satu tugas paling fundamental dalam Supervised Learning: Klasifikasi. Fokus utamanya bukan hanya pada cara melatih model, tetapi bagaimana mengukur kesuksesan model tersebut dengan benar, karena dalam klasifikasi, akurasi saja seringkali menipu.
+________________________________________
 
+1. Laboratorium Utama: MNIST
+Bab ini memperkenalkan "Hello World"-nya Machine Learning: Dataset MNIST.
+•	Isi: 70.000 citra angka tulisan tangan (digit 0-9) berukuran kecil.
+•	Struktur Data: Setiap citra adalah matriks 28x28 piksel. Dalam pemrosesan, matriks ini "diratakan" (flattened) menjadi vektor fitur sepanjang 784 dimensi. Setiap nilai merepresentasikan intensitas piksel (putih ke hitam).
+•	Tujuan: Melatih mesin untuk mengenali pola visual angka tersebut.
+________________________________________
+
+2. Memulai dari yang Sederhana: Pengklasifikasi Biner
+Sebelum masuk ke pengenalan 10 angka sekaligus, kita mulai dengan penyederhanaan masalah: "Apakah ini angka 5 atau bukan?".
+•	Ini disebut Binary Classifier. Targetnya hanya dua: Kelas Positif (Angka 5) dan Kelas Negatif (Bukan Angka 5).
+•	Algoritma yang digunakan sebagai contoh adalah SGD (Stochastic Gradient Descent), yang efisien untuk dataset besar karena memproses data satu per satu.
+________________________________________
+
+3. Evaluasi Performa: Melampaui Akurasi
+Bagian ini adalah inti dari Bab 3. Kita belajar bahwa mengevaluasi klasifikasi jauh lebih rumit daripada regresi.
+
+A. Jebakan Akurasi
+Mengukur rasio prediksi benar (accuracy) seringkali menyesatkan, terutama pada Skewed Datasets (data tidak seimbang).
+•	Contoh: Jika hanya 10% data adalah angka 5, model malas yang menebak "Bukan 5" untuk semua gambar akan tetap memiliki akurasi 90%. Padahal, model itu tidak berguna sama sekali.
+
+B. Matriks Kebingungan (Confusion Matrix)
+Alat audit yang lebih jujur. Matriks ini memetakan prediksi model terhadap kenyataan dalam empat kuadran:
+•	True Positive (TP): Benar mendeteksi angka 5.
+•	True Negative (TN): Benar mendeteksi yang bukan 5.
+•	False Positive (FP): Salah lapor (Imposter). Mengira angka 5, padahal bukan.
+•	False Negative (FN): Gagal deteksi. Itu angka 5, tapi dibilang bukan.
+
+C. Presisi dan Recall
+Dari matriks di atas, kita menurunkan dua metrik vital:
+•	Precision (Kualitas): Saat model mengklaim "Ini angka 5", seberapa sering klaim itu benar? (Fokus meminimalkan FP).
+•	Recall (Kuantitas/Sensitivitas): Dari seluruh angka 5 yang ada di dunia nyata, berapa persen yang berhasil ditemukan model? (Fokus meminimalkan FN).
+
+D. Trade-off Precision/Recall
+Kita tidak bisa mendapatkan Presisi 100% dan Recall 100% secara bersamaan.
+•	Menaikkan standar (threshold) akan meningkatkan Presisi tapi menurunkan Recall (banyak angka 5 asli yang terlewat).
+•	Menurunkan standar akan meningkatkan Recall tapi menurunkan Presisi (banyak angka lain yang "terbawa" dianggap 5).
+•	F1 Score: Jalan tengah (rata-rata harmonik) untuk membandingkan dua model yang memiliki keseimbangan Presisi/Recall berbeda.
+
+E. Kurva ROC dan AUC
+•	ROC (Receiver Operating Characteristic): Kurva yang memplot laju deteksi (TPR) melawan laju alarm palsu (FPR). Model yang bagus kurvanya akan melengkung ke sudut kiri atas.
+•	AUC (Area Under Curve): Skor tunggal untuk menilai kurva tersebut. Nilai 1 berarti sempurna, nilai 0.5 berarti model menebak secara acak (seperti lempar koin).
+Tips Praktis: Gunakan kurva PR (Precision-Recall) jika kelas positif sangat jarang (imbalanced). Gunakan ROC jika kelas seimbang.
+________________________________________
+
+4. Klasifikasi Multikelas & Lanjutan
+Bagaimana cara mendeteksi angka 0 sampai 9 sekaligus?
+
+A. Strategi Multikelas
+Algoritma biner (seperti SVM atau Linear Classifier) harus diakali untuk menangani banyak kelas:
+•	OvR (One-vs-Rest): Melatih 10 model biner (Model "0 vs Semua", "1 vs Semua", dst). Saat prediksi, ambil model dengan skor keyakinan tertinggi. Ini strategi standar untuk sebagian besar algoritma.
+•	OvO (One-vs-One): Melatih model untuk setiap pasangan (Model "0 vs 1", "0 vs 2", dst). Butuh banyak model (N * (N-1) / 2), tapi cocok untuk algoritma yang lambat jika data latihnya besar (seperti SVM).
+
+B. Analisis Kesalahan
+Alih-alih hanya melihat skor akhir, kita melihat Confusion Matrix dalam bentuk visual (heatmap).
+•	Ini membantu kita melihat pola spesifik, misalnya: "Model sering bingung membedakan angka 3 dengan angka 5", sehingga kita bisa fokus memperbaiki data di bagian tersebut (misalnya dengan pra-pemrosesan gambar agar loop angka lebih jelas).
+
+C. Klasifikasi Kompleks
+•	Multilabel: Satu input punya banyak tag. Contoh: Foto berisi "Alice" DAN "Bob". Outputnya berupa vektor biner [1, 0, 1] (Alice ada, Bob tidak, Charlie ada).
+•	Multioutput: Generalisasi lebih luas di mana setiap label bisa memiliki banyak nilai. Contoh: Membersihkan noise gambar, di mana outputnya adalah nilai piksel baru (0-255) untuk setiap piksel di gambar input.
