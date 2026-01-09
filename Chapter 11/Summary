@@ -1,0 +1,26 @@
+Ringkasan Bab 11: Misi Penerjemahan (Sequence-to-Sequence)
+Bab ini adalah "reuni akbar" dari konsep-konsep yang sudah dipelajari sebelumnya. Kita menggabungkan kekuatan ingatan RNN (dari Bab 4 & 9) dengan struktur Encoder-Decoder (dari Bab 5) untuk menciptakan satu tujuan mulia: Mesin Penerjemah (Machine Translation).
+
+
+1. Estafet Informasi (Arsitektur Seq2Seq)
+Model ini bekerja layaknya dua orang juru tulis yang bekerja estafet:
+•	Si Pembaca (Encoder): Sebuah RNN (bisa LSTM atau GRU) membaca kalimat input bahasa asing sampai habis. Intisari dari kalimat tersebut dipadatkan menjadi satu "paket memori" yang disebut Context Vector (ini adalah hidden state terakhirnya).
+•	Si Penulis (Decoder): RNN kedua menerima paket memori tersebut sebagai modal awal, lalu mulai menuliskan terjemahannya kata demi kata hingga selesai.
+
+
+2. Rambu-Rambu Bahasa
+Agar Decoder tidak bingung kapan harus mulai dan kapan harus diam, kalimat target (terjemahan) harus dimodifikasi dengan sinyal khusus:
+•	[SOS] Start of Sequence: Sinyal "Lampu Hijau" di awal kalimat agar Decoder mulai bekerja.
+•	[EOS] End of Sequence: Sinyal "Lampu Merah" di akhir kalimat agar Decoder tahu tugasnya sudah selesai dan berhenti menulis.
+
+
+3. Keras TextVectorization: Solusi Praktis
+Lupakan cara manual yang ribet. Keras menyediakan layer cerdas bernama TextVectorization.
+•	Fungsinya: Ia menangani semua urusan remeh-temeh seperti memecah kalimat jadi token, membuat kamus kata, hingga memetakan kata ke angka integer.
+•	Keunggulan: Layer ini ditanam langsung di dalam model, jadi proses preprocessing menjadi bagian integral dari jaringan itu sendiri.
+
+
+4. Trik Latihan: Teacher Forcing
+Bagaimana cara melatih model agar cepat pintar? Jangan biarkan dia belajar dari kesalahannya sendiri di awal.
+•	Masalah: Jika Decoder salah menebak kata pertama, kata kedua dan seterusnya pasti akan ikut salah (efek bola salju atau compounding errors). Model bisa frustrasi dan tersesat.
+•	Solusi Teacher Forcing: Saat latihan, kita "menyuapi" Decoder dengan kunci jawaban yang benar dari langkah sebelumnya, bukan hasil tebakan dia sendiri. Ini menjaga model tetap berada di jalur yang benar dan mempercepat konvergensi.
