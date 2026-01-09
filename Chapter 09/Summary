@@ -1,1 +1,22 @@
+Ringkasan Bab 9: Membedah Emosi Lewat Teks (NLP)
+Setelah sebelumnya bermain dengan gambar, bab ini mengajak kita beralih ke dunia kata-kata atau Natural Language Processing (NLP). Misi utamanya adalah membangun sistem Analisis Sentimen: melatih komputer agar bisa membaca teks (seperti ulasan produk) dan menebak apakah nadanya positif atau negatif.
 
+
+1. Text Preprocessing
+Mesin tidak bisa membaca novel seperti manusia. Teks mentah itu "kotor" dan harus disiapkan dulu sebelum masuk ke model:
+•	Penyeragaman (Lowercasing): Mengubah semua huruf menjadi kecil agar komputer tidak bingung membedakan "Bagus" dan "bagus".
+•	Pencacahan (Tokenization): Memecah kalimat panjang menjadi potongan-potongan kata tunggal (token).
+•	Pembuangan Sampah (Stop Word Removal): Menghapus kata-kata sambung yang terlalu umum dan minim makna (seperti "dan", "di", "itu"), supaya model fokus ke kata kuncinya saja.
+•	Pencarian Akar (Lemmatization): Mengembalikan kata ke bentuk dasarnya, misalnya mengubah "memakan" atau "dimakan" menjadi sekadar "makan".
+
+
+2. Word Embeddings
+Komputer hanya mengerti matematika, bukan bahasa.
+•	Cara Lama (One-Hot): Dulu setiap kata diberi kode biner panjang. Ini sangat boros memori dan tidak cerdas.
+•	Cara Modern (Embeddings): Kita menggunakan teknik seperti Word2Vec atau GloVe. Bayangkan ini sebagai peta raksasa di mana setiap kata punya koordinat. Kata-kata yang maknanya mirip (misalnya "Raja" dan "Pria", atau "Ratu" dan "Wanita") akan terletak berdekatan di peta tersebut. Di Keras, ini dilakukan lewat layer Embedding.
+
+
+3. Otak Model: LSTM
+Untuk memproses urutan kata, kita butuh model yang punya ingatan.
+•	Masalah RNN Biasa: Model RNN standar punya penyakit "pikun" yang disebut vanishing gradient. Kalau kalimatnya panjang, dia lupa apa kata pertamanya.
+•	Solusi LSTM (Long Short-Term Memory): Ini adalah versi RNN yang sudah di-upgrade. LSTM punya mekanisme "gerbang" (gates) spesial yang bertugas mengatur aliran informasi—dia tahu persis kapan harus mengingat info penting dan kapan harus melupakan info yang sudah tidak relevan. Ini membuatnya jago memahami konteks kalimat panjang.
