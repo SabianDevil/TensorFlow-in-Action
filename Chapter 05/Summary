@@ -1,0 +1,50 @@
+Ringkasan Bab 5: Support Vector Machines (SVM)
+Bab ini mengupas Support Vector Machines (SVM), sebuah model machine learning yang sangat kuat dan serbaguna. SVM mampu menangani klasifikasi linear maupun non-linear, regresi, hingga deteksi pencilan (outlier), menjadikannya salah satu algoritma yang wajib dikuasai.
+________________________________________
+
+1. Filosofi SVM: Jalan Terlebar
+Jika algoritma klasifikasi biasa hanya peduli pada "memisahkan" dua kelas (misalnya: kucing vs anjing), SVM memiliki standar yang lebih tinggi. Tujuannya bukan sekadar memisahkan, tapi memisahkan dengan jarak (margin) terlebar yang mungkin.
+•	Analogi Jalan Raya: Bayangkan decision boundary sebagai garis tengah jalan raya. SVM berusaha membuat jalan raya tersebut selebar mungkin agar mobil (data) dari kedua arah (kelas) aman dan tidak bersenggolan.
+•	Support Vectors: Ini adalah data-data "VIP". Mereka adalah titik data yang terletak tepat di pinggir jalan (batas margin). Hanya titik-titik inilah yang menentukan posisi garis pemisah. Data lain yang jauh di belakang tidak dianggap sama sekali.
+•	Pentingnya Skala: SVM sangat sensitif terhadap rentang nilai. Jika satu fitur memiliki skala ribuan dan fitur lain hanya satuan, "jalan raya" SVM akan menjadi bias. Oleh karena itu, feature scaling (seperti StandardScaler) adalah langkah wajib.
+Pertarungan Margin: Keras vs Lunak
+Dalam praktiknya, kita harus memilih strategi margin:
+
+1.	Hard Margin Classification:
+o	Aturan ketat: Semua data wajib berada di luar jalan raya dan di sisi yang benar.
+o	Kelemahan: Sangat rentan terhadap data pencilan (outlier) dan hanya bisa dipakai jika data benar-benar terpisah secara linear sempurna.
+
+2.	Soft Margin Classification:
+o	Aturan fleksibel: Memperbolehkan beberapa pelanggaran (data masuk ke jalan raya atau menyeberang sedikit) demi mendapatkan jalan yang lebih lebar secara umum.
+
+-	Kontrol Hyperparameter C:
+	C Kecil = Margin lebar, tapi banyak pelanggaran (lebih toleran).
+	C Besar = Margin sempit, sedikit pelanggaran (lebih ketat, risiko overfitting).
+________________________________________
+
+2. Menangani Data Non-Linear
+Dunia nyata jarang sekali linear. Seringkali data kita ruwet dan tidak bisa dipisahkan garis lurus. SVM punya dua jurus untuk ini:
+A. Menambah Fitur Polinomial
+Bayangkan data 2D yang tersebar seperti cincin (titik merah di tengah, titik biru mengelilinginya). Garis lurus tidak bisa memisahkannya. Namun, jika kita menambahkan dimensi baru (misalnya memangkatkan fitur: x^2), data tersebut bisa "diangkat" ke dimensi 3D sehingga bisa dipisahkan oleh bidang datar.
+
+B. The Kernel Trick (Trik Kernel)
+Menambah fitur fisik (seperti metode A) membebani komputasi. SVM memiliki solusi jenius bernama Kernel Trick.
+•	Konsep: Teknik matematika yang memungkinkan model mendapatkan hasil seolah-olah kita sudah menambahkan banyak fitur polinomial kompleks, padahal aslinya kita tidak menambahkannya secara fisik. Hemat memori, hasil maksimal.
+•	Kernel RBF (Gaussian): Salah satu kernel paling populer. Ia bekerja dengan konsep "kemiripan" antar data.
+
+o	Hyperparameter Gamma:
+	gamma Tinggi: Batas keputusan meliuk-liuk mengikuti data (detail, risiko overfitting).
+	gamma Rendah: Batas keputusan lebih mulus dan sederhana.
+________________________________________
+
+3. SVM untuk Regresi
+SVM adalah algoritma yang unik karena prinsipnya bisa dibalik untuk tugas Regresi (memprediksi angka).
+•	Logika Terbalik: Jika pada klasifikasi kita ingin jalan raya (margin) sebersih mungkin dari data, pada regresi kita justru ingin menampung sebanyak mungkin data di dalam jalan raya tersebut.
+•	Hyperparameter Epsilon (epsilon): Mengontrol lebar jalan raya (pipa toleransi). Prediksi dianggap "benar" selama berada di dalam pipa selebar \epsilon ini. Data yang sudah masuk dalam pipa tidak lagi mempengaruhi model (disebut \epsilon-insensitive).
+________________________________________
+
+4. Di Balik Kap Mesin (Teori Matematis)
+Bagaimana SVM menentukan garisnya?
+•	Vektor Bobot (w): SVM mencari nilai bobot w yang meminimalkan norma vektornya (||w||). Secara matematis, meminimalkan bobot sama dengan memaksimalkan lebar margin.
+•	Masalah Optimisasi: SVM memecahkan masalah matematika yang disebut Quadratic Programming (QP).
+•	Masalah Dual: Untuk efisiensi dan agar Kernel Trick bisa bekerja, SVM seringkali tidak memecahkan masalah utamanya secara langsung (Primal Problem), melainkan memecahkan bayangannya (Dual Problem). Ini sangat efisien jika jumlah fitur lebih banyak daripada jumlah sampel data.
