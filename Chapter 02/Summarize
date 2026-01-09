@@ -1,1 +1,58 @@
+Ringkasan Praktis Bab 2: Prinsip Dasar TensorFlow 2
+Rangkuman ini mengulas isi notebook notebook_02.ipynb, yang berfungsi sebagai lokakarya teknis untuk memahami komponen atomik TensorFlow sebelum melangkah ke abstraksi yang lebih tinggi. Fokus utamanya adalah membedah struktur data dan membangun algoritma pembelajaran mesin secara manual.
+________________________________________
 
+1. Anatomi Tensor
+Bagian pembuka notebook ini mengajak kita menyelami tf.Tensor, unit penyimpanan data fundamental dalam ekosistem ini. Tensor pada dasarnya adalah wadah numerik multidimensi yang mirip dengan array pada NumPy, namun dengan kemampuan akselerasi perangkat keras (GPU/TPU).
+Klasifikasi utama Tensor yang dibahas meliputi:
+
+•	Tensor Statis (tf.constant):
+Objek yang bersifat immutable. Sekali dibuat, isinya terkunci dan tidak dapat dimodifikasi. Ini biasanya digunakan untuk data input atau nilai parameter tetap yang tidak perlu dipelajari.
+
+•	Tensor Dinamis (tf.Variable):
+Objek yang bersifat mutable. Ini adalah komponen krusial dalam Deep Learning karena kemampuannya untuk berubah nilai. Dalam konteks model, tf.Variable bertugas menyimpan dan memperbarui bobot (weights) dan bias selama proses pelatihan berlangsung.
+
+Selain itu, diperlihatkan pula metode instansiasi tensor, mulai dari inisialisasi manual, pembuatan matriks nol (tf.zeros) atau satu (tf.ones), hingga pembangkitan angka acak (tf.random) untuk inisialisasi bobot awal.
+________________________________________
+
+2. Mekanisme Manipulasi Data
+Setelah memahami wadahnya, bagian ini mendemonstrasikan bagaimana data diolah. Operasi tensor adalah jantung dari setiap komputasi grafis.
+
+•	Aritmatika Elemen: Operasi matematika dasar seperti penjumlahan, pengurangan, dan perkalian yang terjadi pada setiap elemen tensor secara individu.
+•	Aljabar Linear: Operasi tingkat lanjut seperti perkalian matriks (tf.matmul), yang merupakan fondasi dari lapisan Fully Connected di jaringan saraf.
+•	Transformasi Struktur: Teknik untuk memodifikasi bentuk dan tipe tensor tanpa mengubah isinya, meliputi:
+
+o	tf.reshape: Mengubah dimensi tensor (misalnya, dari matriks 2D menjadi vektor 1D).
+o	tf.cast: Mengonversi tipe data (misalnya, dari integer ke float).
+o	tf.transpose: Memutar dimensi tensor (menukar baris dan kolom).
+o	tf.concat: Menggabungkan dua tensor atau lebih menjadi satu kesatuan.
+________________________________________
+
+3. Studi Kasus: Regresi Linear dari Nol (From Scratch)
+Puncak dari bab ini adalah implementasi model Regresi Linear tanpa menggunakan jalan pintas API Keras (model.fit). Kita membangun "mesin" pembelajaran secara manual menggunakan dataset Boston Housing.
+ 
+Shutterstock
+Langkah-langkah teknis yang dilakukan meliputi:
+
+A. Rekayasa Data
+Data dimuat menggunakan Pandas, dinormalisasi agar sebaran nilainya seragam, dan dibungkus dalam pipeline tf.data.Dataset untuk efisiensi pemrosesan.
+
+B. Definisi Arsitektur
+Model didefinisikan sebagai persamaan linear sederhana:
+y = Wx + b
+Di sini, W (kemiringan garis) dan b (titik potong) diinisialisasi sebagai tf.Variable karena nilai inilah yang akan "dipelajari" dan diperbarui oleh mesin.
+
+C. Fungsi Objektif (Loss Function)
+Kita menetapkan Mean Squared Error (MSE) sebagai tolok ukur untuk menghitung seberapa jauh prediksi model melenceng dari nilai sebenarnya.
+
+D. Keajaiban Diferensiasi Otomatis (tf.GradientTape)
+Ini adalah fitur paling vital dalam TensorFlow 2. GradientTape bertindak sebagai "perekam" yang memantau setiap operasi yang melibatkan variabel.
+•	Saat kita menghitung loss, tape ini memungkinkan kita untuk menghitung gradien (turunan parsial) dari loss terhadap bobot model secara otomatis. Ini menggantikan perhitungan kalkulus manual yang rumit.
+
+E. Siklus Pelatihan Manual (Training Loop)
+Alih-alih fungsi otomatis, kita menulis loop for untuk melakukan iterasi epoch. Di setiap langkah:
+1.	Model melakukan prediksi (Forward Pass).
+2.	Hitung nilai kesalahan (Loss).
+3.	Gunakan GradientTape untuk menghitung gradien.
+4.	Perbarui nilai W dan b dengan menggesernya berlawanan arah dengan gradien (prinsip Gradient Descent).
+Melalui latihan ini, pembaca diajak memahami apa yang sebenarnya terjadi "di balik layar" saat sebuah model dilatih, memberikan pemahaman mendalam tentang mekanisme backpropagation dan optimasi.
