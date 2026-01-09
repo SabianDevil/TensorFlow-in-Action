@@ -1,0 +1,35 @@
+Ringkasan Bab 4: Paradigma Pelatihan Model di TensorFlow 2
+Rangkuman ini mengulas Bab 4 yang membedah dua filosofi utama dalam melatih model: jalur cepat menggunakan API standar dan jalur manual yang menawarkan kendali penuh. Bab ini juga mengajarkan cara memperluas fungsionalitas TensorFlow dengan logika buatan sendiri. Dataset Iris digunakan sebagai studi kasus untuk seluruh eksperimen klasifikasi.
+________________________________________
+
+1. Jalur Otomatis (High-Level API)
+Bagian ini mendemonstrasikan cara standar "The Keras Way" yang paling sering digunakan dalam pengembangan model karena kesederhanaannya.
+•	Definisi Model: Menggunakan model Sequential standar (disebut Model A).
+•	Konfigurasi (compile): Menyiapkan cetak biru pelatihan dengan menentukan tiga pilar utama:
+
+o	Optimizer: Otak yang menggerakkan pembaruan bobot (misalnya: 'adam').
+o	Loss Function: Pengukur kesalahan (misalnya: 'categorical_crossentropy').
+o	Metrics: Rapor penilaian performa (misalnya: akurasi).
+•	Eksekusi (fit): Fungsi ajaib model.fit() yang membungkus seluruh kompleksitas pelatihan. Ia secara otomatis menangani iterasi epoch, pembagian batch, validasi, dan pelaporan progres hanya dengan satu baris kode.
+________________________________________
+
+2. Bedah Jantung Pelatihan: Custom Training Loops (CTL)
+Bagian ini membongkar "kotak hitam" model.fit untuk memberikan fleksibilitas maksimal, teknik yang wajib dikuasai untuk riset tingkat lanjut atau arsitektur model yang tidak lazim.
+•	Komponen Vital (tf.GradientTape): Diperkenalkan sebagai "perekam digital" yang memantau setiap operasi matematika yang melibatkan variabel model (trainable variables). Pita ini penting untuk Diferensiasi Otomatis, yaitu menghitung gradien (turunan) dari loss terhadap bobot model secara instan.
+•	Mekanisme Manual: Kita membangun ulang Model A, namun kali ini dilatih menggunakan loop for Python biasa. Langkah-langkah eksplisitnya meliputi:
+
+1.	Buka Tape: Memulai konteks tf.GradientTape.
+2.	Forward Pass: Menghasilkan prediksi dari input.
+3.	Hitung Error: Mengkalkulasi nilai loss manual.
+4.	Hitung Gradien: Meminta tape menghitung turunan loss terhadap bobot (tape.gradient).
+5.	Update Bobot: Menggunakan optimizer untuk menerapkan gradien tersebut ke variabel model (apply_gradients).
+6.	Laporan: Memperbarui dan mencetak metrik secara manual.
+________________________________________
+
+3. Ekstensi Kustom (Loss & Metrics)
+Bagian terakhir mengajarkan cara menyuntikkan logika matematika sendiri ke dalam ekosistem Keras, berguna ketika fungsi bawaan perpustakaan tidak memenuhi kebutuhan spesifik proyek.
+•	Custom Loss Function: Dibuat dengan cara menurunkan kelas (sub-classing) dari tf.keras.losses.Loss.
+
+o	Kuncinya adalah melakukan override pada metode __init__() untuk inisialisasi parameter, dan metode call() untuk mendefinisikan rumus matematika perhitungan error yang unik.
+o	Ini memungkinkan fungsi kerugian buatan sendiri tersebut dipanggil semudah fungsi bawaan seperti model.compile(loss=MyCustomLoss()).
+
