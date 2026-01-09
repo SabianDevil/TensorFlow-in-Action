@@ -9,8 +9,8 @@ Secara esensial, Machine Learning (ML) adalah seni membuat komputer melakukan tu
 Definisi formal Tom Mitchell menyatakan bahwa sebuah program dikatakan belajar jika kinerjanya pada tugas tertentu (Task) meningkat, diukur dengan metrik performa (Performance), seiring dengan bertambahnya pengalaman (Experience).
 •	Pergeseran Paradigma:
 
-o	Pemrograman Konvensional: Manusia memasukkan Aturan + Data $\rightarrow$ Komputer menghasilkan Jawaban.
-o	Machine Learning: Manusia memasukkan Data + Jawaban (Output yang diharapkan) $\rightarrow$ Komputer menemukan Aturan (Pola).
+o	Pemrograman Konvensional: Manusia memasukkan Aturan + Data -> Komputer menghasilkan Jawaban.
+o	Machine Learning: Manusia memasukkan Data + Jawaban (Output yang diharapkan) \rightarrow Komputer menemukan Aturan (Pola).
 
 •	Kapan ML Diperlukan?
 ML bersinar ketika aturan terlalu kompleks untuk ditulis tangan (seperti pengenalan wajah), lingkungan berubah-ubah secara dinamis, atau untuk menggali wawasan tersembunyi (data mining) dari tumpukan data besar.
