@@ -1,1 +1,31 @@
+Ringkasan Bab 10: Seni Meramal Kata (Language Modeling)
+Bab ini membawa kita lebih dalam ke dunia NLP. Jika sebelumnya kita hanya mengklasifikasikan sentimen, sekarang kita melatih model untuk menjadi "penulis" atau "peramal". Inilah fondasi teknologi di balik model canggih seperti GPT.
 
+
+1. Apa itu Language Modeling?
+Inti dari bab ini adalah melatih model untuk menebak: "Setelah kata ini, kata apa yang akan muncul berikutnya?"
+•	Konsep: Ini adalah tugas self-supervised. Kita tidak butuh label manual. Kita cukup mengambil satu kalimat, lalu meminta model memprediksi kata selanjutnya. Jika inputnya "Saya makan", targetnya adalah "nasi" (misalnya).
+•	Tujuan: Membuat model memahami struktur bahasa dan probabilitas urutan kata.
+
+
+2. Trik N-Grams: Memecah Kata
+Kosakata manusia itu jutaan jumlahnya. Jika model harus menghafal semua kata utuh, ia akan kewalahan.
+•	Solusi N-Grams: Daripada memberi makan kata utuh, kita potong kata menjadi serpihan karakter (n-grams). Contoh: kata "hello" dipecah menjadi "he", "el", "ll", "lo".
+•	Manfaat: Ini membuat kamus model jadi ringkas dan mengatasi masalah OOV (Out-Of-Vocabulary). Jadi, kalau ada kata asing yang belum pernah dilihat model, ia tetap bisa memprosesnya berdasarkan potongan hurufnya.
+
+
+3. GRU: Adiknya LSTM yang Gesit
+Di bab sebelumnya kita kenal LSTM. Di sini diperkenalkan alternatifnya: GRU (Gated Recurrent Unit).
+•	Bedanya: GRU lebih sederhana. Ia menggabungkan dua gerbang LSTM (input & forget) menjadi satu Update Gate. Ia juga hanya punya satu status tersembunyi (hidden state).
+•	Hasilnya: Komputasi jauh lebih cepat daripada LSTM, tapi performanya seringkali setara. Pilihan bagus kalau sumber daya komputasi terbatas.
+
+
+4. Rapor Merah: Perplexity
+Jangan pakai "Akurasi" untuk menilai model bahasa. Kenapa? Karena setelah kata "Saya sedang...", jawaban "makan", "minum", atau "tidur" semuanya bisa benar secara tata bahasa.
+•	Metrik Perplexity (PPL): Kita menggunakan skor kebingungan. PPL mengukur seberapa "kaget" atau bingung model melihat kata berikutnya.
+•	Aturan Main: Semakin rendah nilai Perplexity, semakin pintar modelnya (karena dia tidak kaget lagi dengan urutan kata yang muncul).
+
+
+5. Cara Menulis: Greedy Decoding
+•	Greedy Decoding: Cara paling simpel. Di setiap langkah, model selalu memilih satu kata dengan peluang tertinggi.
+•	Kelemahan: Meski cepat, hasilnya sering kali membosankan, kaku, dan berulang-ulang. Model tidak "berani" mengambil pilihan kata yang kreatif.
