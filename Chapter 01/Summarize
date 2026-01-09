@@ -1,0 +1,60 @@
+Ringkasan Bab 1: Lanskap Machine Learning
+Bab ini berfungsi sebagai kompas navigasi, menetapkan definisi dasar, memetakan wilayah algoritma, serta mengidentifikasi rintangan umum dan protokol evaluasi yang wajib diketahui sebelum memulai ekspedisi data.
+________________________________________
+
+1. Hakikat Machine Learning
+Secara esensial, Machine Learning (ML) adalah seni membuat komputer melakukan tugas tanpa instruksi eksplisit (pemrograman konvensional).
+•	Kerangka Kerja T-E-P:
+
+Definisi formal Tom Mitchell menyatakan bahwa sebuah program dikatakan belajar jika kinerjanya pada tugas tertentu (Task) meningkat, diukur dengan metrik performa (Performance), seiring dengan bertambahnya pengalaman (Experience).
+•	Pergeseran Paradigma:
+
+o	Pemrograman Konvensional: Manusia memasukkan Aturan + Data $\rightarrow$ Komputer menghasilkan Jawaban.
+o	Machine Learning: Manusia memasukkan Data + Jawaban (Output yang diharapkan) $\rightarrow$ Komputer menemukan Aturan (Pola).
+
+•	Kapan ML Diperlukan?
+ML bersinar ketika aturan terlalu kompleks untuk ditulis tangan (seperti pengenalan wajah), lingkungan berubah-ubah secara dinamis, atau untuk menggali wawasan tersembunyi (data mining) dari tumpukan data besar.
+________________________________________
+
+2. Taksonomi Sistem Machine Learning
+Sistem ML diklasifikasikan berdasarkan seberapa banyak pengawasan manusia yang dibutuhkan dan bagaimana mereka memproses data.
+
+A. Berdasarkan Pengawasan Manusia
+•	Pembelajaran Terawasi (Supervised Learning): Model dilatih menggunakan data yang sudah memiliki "kunci jawaban" (label). Tujuannya bisa berupa Klasifikasi (memilah kategori, misal: email spam/ham) atau Regresi (menebak angka, misal: harga rumah).
+•	Pembelajaran Tak Terawasi (Unsupervised Learning): Data mentah tanpa label. Model bertugas menjadi detektif untuk menemukan struktur tersembunyi, seperti pengelompokan (Clustering), penyederhanaan data (Dimensionality Reduction), atau pencarian aturan asosiasi.
+•	Pembelajaran Semiterawasi: Kombinasi di mana sebagian kecil data berlabel digunakan untuk memandu pengolahan data tak berlabel yang berjumlah besar.
+•	Pembelajaran Penguatan (Reinforcement Learning): Belajar melalui trial and error. Seorang Agen berinteraksi dengan lingkungan, melakukan aksi, dan menerima Imbalan (positif) atau Hukuman (negatif) untuk menyusun strategi (policy) terbaik.
+
+B. Berdasarkan Kemampuan Adaptasi
+•	Batch Learning: Model "mati" setelah dilatih. Ia belajar dari seluruh dataset sekaligus, lalu diluncurkan ke produksi tanpa kemampuan belajar hal baru (kecuali dilatih ulang dari nol).
+•	Online Learning: Model belajar secara bertahap dan berkelanjutan dari aliran data (stream). Sangat cocok untuk data yang dinamis (saham) atau ketika memori komputer terbatas.
+
+C. Berdasarkan Cara Generalisasi
+•	Instance-Based: Belajar dengan cara menghafal contoh. Prediksi dilakukan dengan mencocokkan kemiripan data baru dengan data lama yang tersimpan di memori.
+•	Model-Based: Belajar dengan cara membangun model matematis (generalisasi) dari contoh, lalu menggunakan rumus tersebut untuk memprediksi data baru.
+________________________________________
+
+3. Jebakan dan Tantangan
+Kegagalan proyek ML biasanya bermuara pada dua akar masalah: Data yang buruk atau Model yang salah.
+
+A. Masalah Data
+•	Kuantitas: Algoritma canggih pun tak berdaya tanpa volume data yang cukup.
+•	Kualitas: Sampah masuk, sampah keluar (Garbage In, Garbage Out). Data yang penuh noise, outlier, atau kesalahan input akan mengacaukan pola.
+•	Representasi: Data latih harus mencerminkan realitas. Kesalahan pengambilan sampel (sampling bias) membuat model gagal saat menghadapi dunia nyata.
+•	Relevansi Fitur: Tidak semua data itu penting. Kunci sukses adalah Feature Engineering—memilih fitur yang relevan dan membuang yang mengganggu.
+
+B. Masalah Model
+•	Overfitting (Terlalu Hafal): Model terlalu kompleks sehingga ia "menghafal" noise pada data latih alih-alih mempelajari pola umum. Performanya bagus saat latihan, tapi hancur saat ujian.
+o	Obat: Sederhanakan model, tambah data, atau gunakan teknik Regularisasi.
+
+•	Underfitting (Terlalu Polos): Model terlalu sederhana untuk menangkap struktur data yang rumit. Ia gagal baik saat latihan maupun ujian.
+o	Obat: Ganti model yang lebih kompleks atau tambah fitur baru.
+________________________________________
+
+4. Protokol Evaluasi
+Jangan pernah mempercayai model yang belum diuji pada data yang belum pernah dilihatnya.
+•	Pemisahan Data (Hold-out): Bagi data menjadi dua kubu: Training Set (untuk belajar) dan Test Set (untuk ujian akhir).
+•	Bahaya Mengintip Data: Jangan pernah menyetel parameter model berdasarkan Test Set. Jika dilakukan, model akan bias (Data Snooping Bias) dan terlihat lebih pintar dari aslinya.
+•	Peran Validation Set: Gunakan set ketiga, yaitu Validation Set (atau Dev Set), sebagai arena uji coba untuk membandingkan berbagai model dan menyetel hyperparameter.
+•	Alur Ideal: Latih di Training Set -> Evaluasi & Setel di Validation Set -> Uji Final di Test Set.
+
