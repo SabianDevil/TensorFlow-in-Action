@@ -1,0 +1,52 @@
+Ringkasan Bab 8: Seni Meringkas Data (Reduksi Dimensi)
+Bab ini membahas strategi untuk menangani dataset yang besar (memiliki ribuan fitur). Tujuannya adalah memampatkan informasi menjadi representasi yang lebih ringkas tanpa membuang esensi data tersebut, sebuah langkah krusial untuk efisiensi komputasi dan visualisasi.
+________________________________________
+
+1. Musuh Utama: Kutukan Dimensi
+Di dunia 3 dimensi kita, intuisi tentang jarak bekerja dengan baik. Namun, di ruang berdimensi tinggi (ratusan atau ribuan fitur), aturan main berubah drastis. Fenomena ini disebut Kutukan Dimensi (Curse of Dimensionality).
+•	Masalah Kekosongan: Semakin tinggi dimensi, semakin "kosong" ruang tersebut. Data cenderung tersebar sangat jauh satu sama lain (sparse).
+•	Dampak: Karena data saling berjauhan, model sulit menemukan pola yang valid (ekstrapolasi menjadi tidak andal), yang meningkatkan risiko overfitting secara drastis.
+•	Solusi: Reduksi dimensi membuang fitur yang tidak relevan atau redundan untuk memadatkan data kembali.
+________________________________________
+
+2. Dua Filosofi Reduksi
+Bagaimana cara kita mengurangi dimensi? Ada dua pendekatan utama:
+
+A. Proyeksi (Projection)
+•	Konsep: Bayangkan bayangan sebuah objek 3D di dinding datar. Proyeksi bekerja dengan cara "menjatuhkan" data dari ruang dimensi tinggi ke bidang datar (sub-ruang) yang lebih rendah.
+•	Kelemahan: Metode ini gagal jika data memiliki bentuk yang melipat atau memutar, seperti dataset "Swiss Roll". Jika diproyeksikan langsung (digepengkan), lapisan-lapisannya akan bertumpuk dan merusak struktur data.
+
+B. Manifold Learning
+•	Konsep: Alih-alih menggepengkan, metode ini mencoba "membuka gulungan" (unroll). Ia mengasumsikan data adalah lembaran dimensi rendah yang tertekuk-tekuk di ruang dimensi tinggi.
+•	Tujuan: Membentangkan lipatan tersebut menjadi bidang datar tanpa merusak hubungan lokal antar titik data.
+________________________________________
+
+3. PCA (Principal Component Analysis)
+PCA adalah raja dari metode proyeksi linear.
+•	Prinsip Kerja: PCA mencari sudut pandang (sumbu) terbaik untuk memproyeksikan data. "Terbaik" di sini berarti sumbu yang paling banyak mempertahankan varians (penyebaran informasi).
+o	PC1 (Komponen Utama 1): Sumbu yang menangkap variasi data terbesar.
+o	PC2: Sumbu tegak lurus terhadap PC1 yang menangkap sisa variasi terbesar berikutnya.
+
+•	SVD (Singular Value Decomposition): Teknik aljabar linear standar yang digunakan di balik layar untuk menghitung sumbu-sumbu ini secara matematis.
+•	Memilih Jumlah Dimensi: Jangan menebak angka acak. Gunakan plot Explained Variance Ratio. Cari titik "siku" (elbow) pada grafik—titik di mana menambahkan dimensi baru tidak lagi memberikan tambahan informasi yang signifikan.
+
+•	Varian PCA:
+o	Kompresi: Data yang direduksi bisa dikembalikan ke dimensi asal (inverse transform), meski dengan sedikit penurunan kualitas (reconstruction error).
+o	Incremental PCA (IPCA): Solusi untuk memecah data besar menjadi mini-batch jika RAM tidak cukup.
+o	Randomized PCA: Algoritma aproksimasi cepat untuk data dengan dimensi super besar.
+________________________________________
+
+4. Kernel PCA (kPCA)
+Bagaimana jika data kita berbentuk melingkar atau melipat (non-linear) tapi kita tetap ingin menggunakan PCA? Kita gunakan Kernel Trick.
+•	Mekanisme: Secara matematis memetakan data ke ruang dimensi yang lebih tinggi di mana data tersebut menjadi terpisah secara linear, lalu melakukan PCA di sana.
+•	Hasil: Memungkinkan PCA membuat batas-batas keputusan yang melengkung dan kompleks, sangat berguna untuk memisahkan klaster yang rumit atau membuka manifold sederhana.
+________________________________________
+
+5. LLE (Locally Linear Embedding)
+LLE adalah teknik Manifold Learning yang ampuh (non-proyeksi).
+•	Filosofi: "Pikirkan tetangga, lupakan global." LLE tidak peduli bentuk data secara keseluruhan. Ia hanya peduli pada hubungan geometris antara satu titik dengan titik-titik tetangga terdekatnya.
+
+•	Cara Kerja:
+1.	Ukur hubungan linear setiap titik dengan tetangganya.
+2.	Cari representasi dimensi rendah yang paling mempertahankan hubungan ketetanggaan tersebut.
+•	Kekuatan: Sangat jago membuka lipatan data yang rumit (seperti Swiss Roll) di mana PCA biasa pasti gagal total.
