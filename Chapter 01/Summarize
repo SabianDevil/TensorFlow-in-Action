@@ -1,1 +1,28 @@
+Ringkasan Bab 1: Menjelajahi Semesta TensorFlow
+Bab pembuka ini bersifat konseptual murni—jadi simpan dulu keyboard Anda, karena belum ada kode di sini. Fokusnya adalah memberikan pemahaman mendasar tentang "siapa" dan "apa" peran TensorFlow dalam dunia Data Science, serta pemahaman krusial mengenai infrastruktur perangkat keras di belakangnya.
+________________________________________
 
+1. TensorFlow: Bukan Sekadar Pustaka Biasa
+Jangan anggap TensorFlow hanya sebagai alat hitung. Ia adalah sebuah ekosistem end-to-end (hulu ke hilir) yang lengkap. Bayangkan sebuah pabrik yang menyediakan alat untuk semua tahapan produksi:
+•	Desain: Anda merancang model dengan mudah menggunakan Keras API.
+•	Produksi (Training): Mendukung pelatihan model di berbagai mesin canggih (Multi-GPU atau TPU).
+•	Distribusi (Deployment): Setelah model jadi, ia bisa disebar ke mana saja—server besar (pakai TF Serving), platform manajemen (TFX), atau bahkan ke saku celana Anda di perangkat mobile (pakai TF Lite).
+•	Pengawasan: Ada TensorBoard, alat visualisasi untuk memantau kinerja model Anda layaknya CCTV.
+________________________________________
+
+2. Pertarungan Perangkat Keras: CPU vs GPU vs TPU
+Bab ini juga membedah "mesin" yang menggerakkan Deep Learning. Memilih senjata yang tepat sangat krusial:
+
+•	CPU
+o	Didesain untuk low latency. Punya sedikit inti (core) tapi sangat kuat.
+o	Jagoan dalam tugas rumit yang berurutan (sekuensial).
+o	Kelemahan: Kurang cocok buat Deep Learning karena ia kewalahan kalau disuruh menghitung ribuan matriks sekaligus.
+
+•	GPU
+o	Didesain untuk high throughput. Punya ribuan inti, meski masing-masing tidak sekuat inti CPU.
+o	Kekuatannya ada pada kerja keroyokan (paralel). Sangat efisien untuk operasi matematika sederhana yang masif seperti perkalian matriks dalam Deep Learning.
+
+•	TPU
+o	Ini adalah chips kustom buatan Google (ASIC).
+o	Tidak seperti CPU/GPU yang serbaguna, TPU lahir khusus untuk satu tujuan: operasi Tensor.
+o	Sangat optimal untuk beban kerja Deep Learning (terutama presisi rendah/bfloat16), menawarkan kecepatan dan efisiensi daya yang ekstrem.
