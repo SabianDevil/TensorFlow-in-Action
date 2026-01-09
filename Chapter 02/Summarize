@@ -1,5 +1,5 @@
 Ringkasan Praktis Bab 2: Prinsip Dasar TensorFlow 2
-Rangkuman ini mengulas isi notebook notebook_02.ipynb, yang berfungsi sebagai lokakarya teknis untuk memahami komponen atomik TensorFlow sebelum melangkah ke abstraksi yang lebih tinggi. Fokus utamanya adalah membedah struktur data dan membangun algoritma pembelajaran mesin secara manual.
+Rangkuman ini mengulas bab 4 yang berfungsi sebagai lokakarya teknis untuk memahami komponen atomik TensorFlow sebelum melangkah ke abstraksi yang lebih tinggi. Fokus utamanya adalah membedah struktur data dan membangun algoritma pembelajaran mesin secara manual.
 ________________________________________
 
 1. Anatomi Tensor
