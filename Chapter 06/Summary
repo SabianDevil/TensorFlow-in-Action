@@ -1,0 +1,31 @@
+Ringkasan Bab 6: Eksplorasi Natural Language Processing (NLP)
+Bab ini merupakan panduan komprehensif yang menjembatani data teks mentah dengan arsitektur jaringan saraf yang canggih. Menggunakan dataset ulasan film IMDb sebagai studi kasus, kita membangun sistem analisis sentimen biner (klasifikasi positif/negatif) dari nol.
+________________________________________
+
+1. Transformasi Data Teks
+Sebelum masuk ke model, teks mentah harus diterjemahkan ke dalam bahasa yang dimengerti mesin (angka). TensorFlow 2 menawarkan pendekatan modern untuk pipa pengolahan ini:
+•	Tokenisasi Otomatis (TextVectorization): Ini adalah lapisan (layer) khusus yang menangani pembersihan standar, pemisahan kata (splitting), dan pemetaan string menjadi indeks integer.
+•	Adaptasi Vokabulari: Melalui metode .adapt(), lapisan ini "membaca" data latih untuk membangun kamus internal, menetapkan ID unik untuk setiap kata berdasarkan frekuensi kemunculannya.
+________________________________________
+
+2. Memahami Makna Kata (Word Embeddings)
+Setelah teks berubah menjadi urutan angka, kita perlu cara untuk merepresentasikan makna.
+•	Keterbatasan One-Hot: Metode lama merepresentasikan kata sebagai vektor biner raksasa yang jarang (sparse), yang sangat boros memori dan tidak menangkap hubungan antar kata.
+•	Solusi Embedding Layer: TensorFlow menyediakan lapisan Embedding yang melatih vektor padat (dense vectors) berdimensi rendah. Uniknya, lapisan ini belajar menempatkan kata-kata dengan makna mirip (misalnya: "bagus" dan "keren") berdekatan dalam ruang vektor matematis.
+________________________________________
+
+3. Evolusi Arsitektur Rekuren (RNN)
+Bagian inti bab ini membandingkan tiga generasi model untuk melihat bagaimana kompleksitas arsitektur mempengaruhi performa:
+
+Model A: RNN Sederhana (Baseline)
+•	Arsitektur: Menggunakan lapisan SimpleRNN.
+•	Karakteristik: Memproses urutan kata satu per satu sambil mempertahankan "ingatan" (state) sederhana.
+•	Kelemahan: Sangat rentan terhadap masalah Gradien Menghilang (Vanishing Gradient). Model ini cenderung "pikun", sulit mengingat konteks kata di awal kalimat jika kalimatnya terlalu panjang.
+
+Model B: Long Short-Term Memory (LSTM)
+•	Inovasi: Menggantikan sel RNN biasa dengan sel LSTM yang jauh lebih kompleks.
+•	Keunggulan: LSTM memiliki mekanisme gerbang (gates) internal yang mengatur aliran informasi—memutuskan apa yang harus diingat dan apa yang harus dilupakan. Ini memecahkan masalah gradien menghilang, memungkinkan model menangkap ketergantungan jangka panjang (misalnya, kata "tidak" di awal kalimat mengubah makna kata "suka" di akhir kalimat).
+
+Model C: Arsitektur Hibrida (Stacked & Bidirectional) Ini adalah model paling mutakhir dalam bab ini yang menggabungkan dua teknik powerhouse:
+1.	RNN Bertumpuk (Stacked RNNs): Menumpuk beberapa layer LSTM secara vertikal untuk meningkatkan kapasitas model dalam mempelajari fitur abstrak. Kuncinya adalah argumen return_sequences=True agar layer bawah mengirimkan seluruh urutan ke layer di atasnya, bukan hanya output terakhir.
+2.	Pemrosesan Dua Arah (Bidirectional): Membungkus layer RNN dengan Bidirectional. Ini memungkinkan model membaca teks dari dua arah sekaligus (awal-ke-akhir dan akhir-ke-awal), sehingga model memahami konteks masa lalu dan masa depan secara bersamaan.
